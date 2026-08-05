@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html lang="is">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#E8611C">
+<title>Refur — fallaleikur</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+:root{
+  --refur-orange:#E8611C; --refur-orange-deep:#B84711; --refur-orange-ink:#7A330E; --refur-cliff:#3F5C6C; --refur-cliff-ink:#1E3038;
+  --refur-cream:#FBF4EA; --refur-surface:#FFFFFF; --refur-tealbg:#E4F1EC; --refur-teal-ink:#0F4536; --refur-teal-deep:#0A2E23;
+  --refur-text:#221D18; --refur-text-muted:#6E655B; --refur-border:#D9C7AC; --refur-wrong:#C4453F; --refur-wrong-deep:#8F2C27;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --refur-orange:#F3813D; --refur-orange-deep:#D9691F; --refur-orange-ink:#FBD9C0; --refur-cliff:#8FB2C4; --refur-cliff-ink:#DCEAF0;
+    --refur-cream:#1B1713; --refur-surface:#2A241D; --refur-tealbg:#12302A; --refur-teal-ink:#8FD9C4; --refur-teal-deep:#5FBFA6;
+    --refur-text:#F2EBE1; --refur-text-muted:#B9AC9B; --refur-border:#463C31; --refur-wrong:#E67D77; --refur-wrong-deep:#B4544E;
+  }
+}
+*{box-sizing:border-box}
+.ico{fill:currentColor;display:inline-block;vertical-align:-0.17em;flex-shrink:0}
+body{
+  margin:0; background:var(--refur-cream); color:var(--refur-text);
+  font-family:'Inter',sans-serif; min-height:100vh;
+  padding-bottom:max(2rem, calc(var(--safe-bottom, 0px) + 1rem), calc(env(safe-area-inset-bottom) + 1rem));
+}
+@keyframes refur-pop{0%{transform:scale(1)}40%{transform:scale(1.09)}100%{transform:scale(1)}}
+@keyframes refur-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-5px)}40%{transform:translateX(4px)}60%{transform:translateX(-3px)}80%{transform:translateX(2px)}}
+@keyframes refur-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+@keyframes refur-pulse-ring{0%{box-shadow:0 3px 0 var(--refur-teal-ink),0 0 0 0 rgba(15,69,54,.35)}70%{box-shadow:0 3px 0 var(--refur-teal-ink),0 0 0 10px rgba(15,69,54,0)}100%{box-shadow:0 3px 0 var(--refur-teal-ink),0 0 0 0 rgba(15,69,54,0)}}
+.wrap{max-width:480px;margin:0 auto;padding:1rem;padding-top:max(1rem, calc(var(--safe-top, 0px) + 8px), calc(env(safe-area-inset-top) + 8px))}
+.topbar{display:flex;align-items:center;gap:10px;margin-bottom:1.2rem;min-height:38px;padding-right:46px}
+.topbar .brand{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:20px;color:var(--refur-orange-deep);display:inline-block;transform:rotate(-2deg);letter-spacing:0.2px}
+.practicepill{margin-left:auto;padding:8px 15px 10px;border-radius:999px;border:2px solid var(--refur-border);background:var(--refur-surface);color:var(--refur-text);font-weight:700;font-size:13px;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 0 var(--refur-border);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.practicepill:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-border)}
+.backbtn{width:38px;height:38px;flex-shrink:0;border-radius:12px;border:2px solid var(--refur-border);background:var(--refur-surface);color:var(--refur-cliff-ink);font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 3px 0 var(--refur-border);display:flex;align-items:center;justify-content:center;transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.backbtn:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-border)}
+.viewtitle{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:17px;color:var(--refur-cliff-ink)}
+.card{background:var(--refur-surface);border-radius:18px;padding:1.15rem;border:2px solid var(--refur-border);box-shadow:0 3px 0 var(--refur-border),0 10px 24px rgba(34,29,24,0.06)}
+.map-toprow{display:flex;gap:10px;margin-bottom:1.3rem}
+.map-streakbar{flex:1;display:flex;align-items:center;gap:6px;background:var(--refur-tealbg);border-radius:12px;padding:10px 14px;font-weight:700;font-size:14px;color:var(--refur-teal-ink);font-family:'Baloo 2',sans-serif}
+.map-feathers{flex:1;display:flex;align-items:center;gap:6px;background:#FBEFDB;border-radius:12px;padding:10px 14px;font-weight:700;font-size:14px;color:var(--refur-orange-deep);font-family:'Baloo 2',sans-serif}
+@media (prefers-color-scheme: dark){ .map-feathers{background:#3A2A16} }
+.map-scroll{overflow-y:auto;-webkit-overflow-scrolling:touch;max-height:calc(100vh - var(--safe-top, 0px) - var(--safe-bottom, 0px) - 196px)}
+.map-path{position:relative;padding:10px 4px 4px}
+.map-track-svg{position:absolute;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.map-row{position:relative;display:flex;margin-bottom:14px;z-index:1}
+.map-row.pos-left{justify-content:flex-start;padding-left:6%}
+.map-row.pos-center{justify-content:center}
+.map-row.pos-right{justify-content:flex-end;padding-right:6%}
+.map-node{width:56px;height:56px;border-radius:50%;border:2.5px solid var(--refur-border);background:var(--refur-surface);display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;color:var(--refur-text-muted);position:relative;box-shadow:0 3px 0 var(--refur-border)}
+.map-node.done{background:var(--refur-orange-deep);border-color:var(--refur-orange-deep);color:#FFF8F0;box-shadow:0 3px 0 var(--refur-orange-ink)}
+.map-node.missed{opacity:.55}
+.map-node.shielded{background:var(--refur-tealbg);border-color:var(--refur-teal-ink);color:var(--refur-teal-ink);font-size:20px}
+.map-node.today-open{background:var(--refur-surface);border-color:var(--refur-teal-ink);color:var(--refur-teal-ink);cursor:pointer;animation:refur-pulse-ring 2.2s ease-out infinite}
+.map-node.today-done{background:var(--refur-tealbg);border-color:var(--refur-teal-ink);color:var(--refur-teal-ink);cursor:pointer}
+.map-fox{position:absolute;width:32px;height:32px;border-radius:9px;top:-24px;left:50%;transform:translateX(-50%);box-shadow:0 3px 0 var(--refur-orange-ink);animation:refur-in .5s ease}
+.mapcta{width:100%;margin-top:10px;padding:11px 8px 13px;border-radius:14px;border:2px solid var(--refur-orange-ink);background:var(--refur-orange-deep);color:#FFF8F0;font-weight:700;font-size:15px;cursor:pointer;font-family:'Baloo 2',sans-serif;box-shadow:0 4px 0 var(--refur-orange-ink);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.mapcta:active{transform:translateY(4px);box-shadow:0 0 0 var(--refur-orange-ink)}
+.map-actions-row{display:flex;gap:8px;margin-bottom:14px}
+.map-action-btn{flex:1;padding:10px 8px;border-radius:14px;border:2px solid var(--refur-teal-ink);background:var(--refur-tealbg);color:var(--refur-teal-ink);font-weight:700;font-family:'Baloo 2',sans-serif;font-size:13px;cursor:pointer;box-shadow:0 3px 0 var(--refur-teal-ink);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.map-action-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-teal-ink)}
+.lightning-timerbar{height:14px;border-radius:8px;background:var(--refur-tealbg);overflow:hidden;margin-bottom:14px;border:2px solid var(--refur-border)}
+.lightning-timerfill{height:100%;width:100%;background:var(--refur-teal-ink);transition:width .12s linear,background-color .2s ease}
+.lightning-timerfill.warn{background:#D9A017}
+.lightning-timerfill.danger{background:var(--refur-wrong-deep);animation:lightning-danger-pulse .4s ease-in-out infinite}
+@keyframes lightning-danger-pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.lightning-count{text-align:center;font-size:13px;color:var(--refur-text-muted);font-weight:600;margin-bottom:10px}
+.lightning-result{display:flex;flex-direction:column;align-items:center;gap:10px;padding:2rem 1rem;text-align:center}
+.lightning-result-emoji{font-size:48px}
+.lightning-result-title{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:22px;color:var(--refur-text)}
+.lightning-result-sub{font-size:15px;color:var(--refur-orange-deep);font-weight:700}
+.lightning-retry{width:100%;margin-top:6px;padding:11px 8px 13px;border-radius:14px;border:2px solid var(--refur-orange-ink);background:var(--refur-orange-deep);color:#FFF8F0;font-weight:700;font-size:15px;cursor:pointer;font-family:'Baloo 2',sans-serif;box-shadow:0 4px 0 var(--refur-orange-ink);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.lightning-retry:active{transform:translateY(4px);box-shadow:0 0 0 var(--refur-orange-ink)}
+.lightning-exit{background:none;border:none;color:var(--refur-text-muted);font-size:14px;font-weight:600;cursor:pointer;text-decoration:underline;margin-top:4px}
+.ambient-ticker{margin-top:10px;text-align:center;font-size:12px;color:var(--refur-text-muted);font-weight:600;min-height:16px;animation:refur-in .3s ease}
+.factions-join{background:var(--refur-tealbg);border-radius:14px;padding:14px;margin-bottom:14px;text-align:center}
+.factions-join-text{font-size:13px;color:var(--refur-teal-ink);margin-bottom:10px;font-weight:600}
+.factions-join-btn{width:100%;padding:10px 8px;border-radius:14px;border:2px solid var(--refur-teal-ink);background:var(--refur-surface);color:var(--refur-teal-ink);font-weight:700;font-family:'Baloo 2',sans-serif;font-size:13px;cursor:pointer;box-shadow:0 3px 0 var(--refur-teal-ink);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.factions-join-btn:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-teal-ink)}
+.factions-empty{text-align:center;color:var(--refur-text-muted);font-size:13px;padding:24px 0}
+.faction-row{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;border:2px solid var(--refur-border);background:var(--refur-surface);margin-bottom:8px;box-shadow:0 2px 0 var(--refur-border)}
+.faction-row.mine{border-color:var(--refur-orange-deep);background:var(--refur-cream)}
+.faction-rank{font-family:'Baloo 2',sans-serif;font-weight:800;color:var(--refur-text-muted);width:18px;text-align:center}
+.faction-flag{font-size:20px}
+.faction-name{flex:1;font-weight:700;font-size:12.5px;color:var(--refur-text)}
+.faction-accuracy{font-weight:800;color:var(--refur-teal-ink);font-size:14px}
+.faction-count{font-size:11px;color:var(--refur-text-muted);white-space:nowrap}
+.catbar{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:1.1rem}
+.catbar button,.diffbar button{border-radius:12px;border:2px solid var(--refur-border);background:var(--refur-surface);color:var(--refur-text);cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;box-shadow:0 3px 0 var(--refur-border);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.catbar button:active,.diffbar button:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-border)}
+.catbar button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px 12px;font-size:11px;min-height:52px}
+.catbar button.active,.diffbar button.active{background:var(--refur-orange-deep);color:#FFF8F0;border-color:var(--refur-orange-deep);box-shadow:0 3px 0 var(--refur-orange-ink)}
+.catbar button.active:active,.diffbar button.active:active{box-shadow:0 0 0 var(--refur-orange-ink)}
+.diffbar{display:flex;gap:6px}
+.diffbar button{font-size:12px;padding:5px 10px 7px}
+.headrow{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.7rem;font-size:13px;color:var(--refur-text-muted);font-weight:500;gap:8px}
+.feathers-badge{font-size:12px;font-weight:700;color:var(--refur-orange-deep);background:var(--refur-cream);border:2px solid var(--refur-border);border-radius:999px;padding:3px 10px;font-family:'Baloo 2',sans-serif;animation:refur-pop .3s ease;white-space:nowrap}
+.wordblock{text-align:center;margin-bottom:1.1rem}
+.headword{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:32px;color:var(--refur-orange-deep)}
+.gloss{font-size:13px;color:var(--refur-cliff-ink)}
+.sublabel{font-size:12px;color:var(--refur-text-muted);font-weight:500}
+.boxes{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:1.3rem}
+.refur-box{background:var(--refur-cream);border:2.5px dashed var(--refur-cliff);border-radius:14px;padding:10px;min-height:66px;cursor:pointer;transition:border-color .1s ease}
+.refur-box.filled{border-style:solid}
+.refur-box.correct{border-color:var(--refur-teal-ink);box-shadow:0 3px 0 var(--refur-tealbg);animation:refur-pop .28s ease}
+.refur-box.wrong{border-color:var(--refur-wrong);animation:refur-shake .3s ease}
+.box-label{font-size:12px;color:var(--refur-cliff-ink);font-weight:700;margin-bottom:4px;font-family:'Baloo 2',sans-serif}
+.box-trigger{font-size:13px;color:var(--refur-text-muted);margin-bottom:6px}
+.box-answer{font-size:15px;font-weight:700}
+.box-answer.correct{color:var(--refur-teal-ink)}
+.box-answer.wrong{color:var(--refur-wrong)}
+.trayhint{font-size:12px;color:var(--refur-text-muted);margin-bottom:9px;font-weight:500}
+.tray{display:flex;flex-wrap:wrap;gap:9px;min-height:44px}
+.chip{background:var(--refur-surface);border:2px solid var(--refur-cliff);border-radius:999px;padding:8px 17px;font-size:14px;font-weight:600;cursor:grab;color:var(--refur-cliff-ink);touch-action:none;user-select:none;box-shadow:0 2.5px 0 var(--refur-cliff);transition:transform .08s ease;animation:refur-in .18s ease}
+.chip:nth-child(odd){transform:rotate(-1.4deg)}
+.chip:nth-child(even){transform:rotate(1.2deg)}
+.chip.dragging{box-shadow:0 10px 18px rgba(30,48,56,.28);transform:scale(1.06) rotate(0deg) !important;cursor:grabbing}
+.factpanel{margin-top:15px;background:var(--refur-tealbg);border-radius:14px;padding:11px 13px;border:2px solid transparent}
+.factpanel .ft{font-size:12px;font-weight:700;color:var(--refur-teal-ink);margin-bottom:3px;font-family:'Baloo 2',sans-serif}
+.factpanel .fb{font-size:13px;color:var(--refur-teal-ink)}
+.case-explainer{margin-top:15px;background:var(--refur-cream);border:2px dashed var(--refur-border);border-radius:14px;padding:12px 13px}
+.case-explainer .ce-title{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:12px;color:var(--refur-text-muted);margin-bottom:9px;letter-spacing:0.2px}
+.case-explainer .ce-grid{display:grid;grid-template-columns:1fr 1fr;gap:11px 10px}
+.case-explainer .ce-item{display:flex;flex-direction:column;gap:2px}
+.case-explainer .ce-name{font-family:'Baloo 2',sans-serif;font-weight:700;font-size:12.5px;color:var(--refur-cliff-ink)}
+.case-explainer .ce-desc{font-size:11.5px;color:var(--refur-text-muted);line-height:1.35}
+.navrow{display:flex;align-items:center;justify-content:space-between;margin-top:15px}
+.navrow button{font-size:13px;font-weight:700;padding:8px 14px 10px;border-radius:12px;border:2px solid var(--refur-border);background:var(--refur-surface);color:var(--refur-text);cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 0 var(--refur-border);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.navrow button:active:not(:disabled){transform:translateY(3px);box-shadow:0 0 0 var(--refur-border)}
+.navrow button.nextbtn:not(:disabled){background:var(--refur-orange-deep);color:#FFF8F0;border-color:var(--refur-orange-deep);box-shadow:0 3px 0 var(--refur-orange-ink)}
+.navrow button.nextbtn:not(:disabled):active{box-shadow:0 0 0 var(--refur-orange-ink)}
+.navrow .score{font-size:13px;color:var(--refur-text-muted);font-weight:600}
+.streakcard{display:flex;align-items:center;gap:15px;background:linear-gradient(180deg,var(--refur-orange) 0%,var(--refur-orange-deep) 100%);border-radius:18px;padding:18px 20px;margin-bottom:1.3rem;border:2px solid var(--refur-orange-ink);box-shadow:0 4px 0 var(--refur-orange-ink)}
+.streak-icon{font-size:34px;line-height:1;flex-shrink:0;animation:refur-pop .5s ease}
+.streaknum{font-size:26px;font-weight:800;color:#FFF8F0;font-family:'Baloo 2',sans-serif;line-height:1.15}
+.streaksub{font-size:12.5px;color:#FFE3CE;font-weight:600}
+.sectionhead{display:flex;align-items:center;gap:7px;font-family:'Baloo 2',sans-serif;font-weight:700;font-size:14px;color:var(--refur-cliff-ink);margin:0 0 9px}
+.sectionhead .n{background:var(--refur-tealbg);color:var(--refur-teal-ink);border-radius:999px;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px}
+.section-block{margin-bottom:1.3rem}
+.weekrow{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:5px}
+.weekrow span{text-align:center;font-size:10.5px;font-weight:600;color:var(--refur-text-muted)}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.calcell{height:28px;border-radius:8px;border:2px solid var(--refur-border);background:var(--refur-cream);display:flex;align-items:center;justify-content:center;color:#FFF8F0;font-size:12px;font-weight:700}
+.calcell.done{background:var(--refur-orange-deep);border-color:var(--refur-orange-deep);box-shadow:0 2px 0 var(--refur-orange-ink)}
+.calcell.shielded{background:var(--refur-tealbg);border-color:var(--refur-teal-ink);color:var(--refur-teal-ink);font-size:11px}
+.calcell.today{outline:2px solid var(--refur-teal-ink);outline-offset:1px}
+.shield-note{background:var(--refur-tealbg);color:var(--refur-teal-ink);font-size:12.5px;font-weight:600;border-radius:10px;padding:9px 13px;margin-bottom:1.1rem;text-align:center}
+.resultgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.resultcell{aspect-ratio:1;border-radius:13px;border:2px solid var(--refur-border);background:var(--refur-cream);display:flex;align-items:center;justify-content:center;font-size:19px;position:relative}
+.resultcell.clean{border-color:var(--refur-teal-ink);background:var(--refur-tealbg);box-shadow:0 2.5px 0 var(--refur-teal-ink)}
+.resultcell.retry{border-color:var(--refur-orange-deep);background:var(--refur-cream);box-shadow:0 2.5px 0 var(--refur-orange-deep)}
+.badge{position:absolute;top:-6px;right:-6px;width:17px;height:17px;border-radius:999px;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;color:#FFF8F0;border:2px solid var(--refur-surface)}
+.badge.clean{background:var(--refur-teal-ink)}
+.badge.retry{background:var(--refur-orange-deep)}
+.summary-line{text-align:center;font-size:13px;font-weight:600;color:var(--refur-teal-ink);margin:9px 0 0}
+.sharebox{background:var(--refur-tealbg);border-radius:16px;padding:15px 16px;border:2px solid var(--refur-teal-deep)}
+.sharetext{font-family:monospace;font-size:14px;line-height:1.6;white-space:pre-wrap;color:var(--refur-teal-ink);font-weight:600}
+.sharebtn{width:100%;margin-top:12px;padding:9px 8px 11px;border-radius:12px;border:2px solid var(--refur-orange-ink);background:var(--refur-orange-deep);color:#FFF8F0;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 0 var(--refur-orange-ink);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.sharebtn:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-orange-ink)}
+.secondarybtn{width:100%;margin-top:10px;padding:9px 8px 11px;border-radius:12px;border:2px solid var(--refur-border);background:var(--refur-surface);color:var(--refur-text);font-weight:700;font-size:14px;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 3px 0 var(--refur-border);transform:translateY(0);transition:transform .06s ease,box-shadow .06s ease}
+.secondarybtn:active{transform:translateY(3px);box-shadow:0 0 0 var(--refur-border)}
+.copied{text-align:center;font-size:12px;color:var(--refur-teal-ink);margin-top:7px;display:none;font-weight:600}
+.hidden{display:none !important}
+.splash{position:fixed;inset:0;z-index:9999;background:var(--refur-cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:1;transition:opacity .4s ease}
+.splash.fade-out{opacity:0;pointer-events:none}
+.splash-icon{width:88px;height:88px;border-radius:22px;box-shadow:0 6px 0 var(--refur-orange-ink),0 14px 28px rgba(34,29,24,0.14);animation:refur-in .45s ease}
+.splash-brand{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:26px;color:var(--refur-orange-deep);animation:refur-in .5s ease}
+</style>
+</head>
+<body>
+<div id="splash" class="splash">
+  <img class="splash-icon" src="icons/icon-192.png" alt="Refur">
+  <div class="splash-brand">Refur</div>
+</div>
+<div class="wrap">
+  <div class="topbar" id="topbar"></div>
+
+  <div id="view-map" class="card"></div>
+  <div id="view-daily" class="card hidden"></div>
+  <div id="view-practice" class="card hidden"></div>
+  <div id="view-lightning" class="card hidden"></div>
+  <div id="view-factions" class="card hidden"></div>
+</div>
+
+<script>
+const CASE_KEYS = ["nf","þf","þgf","ef"];
+const CASE_LABELS = {nf:"Nefnifall",þf:"Þolfall",þgf:"Þágufall",ef:"Eignarfall"};
+const CASE_TRIGGERS = {nf:"Hér er",þf:"Um",þgf:"Frá",ef:"Til"};
+
+let DB = null;
+let pool = [];
+
+// ---------------- Splash screen ----------------
+const SPLASH_MIN_MS = 1000;
+const splashStart = Date.now();
+let splashDataReady = false;
+function hideSplash(){
+  const el = document.getElementById("splash");
+  if(!el) return;
+  el.classList.add("fade-out");
+  setTimeout(()=>{ el.remove(); }, 450);
+}
+function maybeHideSplash(){
+  const elapsed = Date.now() - splashStart;
+  const wait = Math.max(0, SPLASH_MIN_MS - elapsed);
+  setTimeout(()=>{ if(splashDataReady) hideSplash(); }, wait);
+}
+
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function addDays(dateStr, n){
+  const d = new Date(dateStr+"T00:00:00");
+  d.setDate(d.getDate()+n);
+  return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+}
+function hashStr(s){ let h=0; for(let i=0;i<s.length;i++){ h=(Math.imul(31,h)+s.charCodeAt(i))|0; } return h; }
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+function seededShuffle(arr, seed){
+  const rng = mulberry32(seed);
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(rng()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function ls_get(key, fallback){
+  try{ const v = localStorage.getItem(key); return v===null ? fallback : JSON.parse(v); }catch(e){ return fallback; }
+}
+function ls_set(key, val){ try{ localStorage.setItem(key, JSON.stringify(val)); }catch(e){} }
+
+// Posts an event (with optional extra payload fields) to the native shell
+// (see WebView.swift's refurNative message handler). No-ops harmlessly in
+// a plain browser/no native host.
+function notifyNative(event, data){
+  try{
+    window.webkit.messageHandlers.refurNative.postMessage(Object.assign({event: event}, data || {}));
+  }catch(e){}
+}
+
+// ---------------- Inline icon set ----------------
+// Small flat SVG glyphs standing in for what used to be plain color emoji
+// (🔥🪶🛡️ ...) -- iOS's own emoji rendering reads as "chat app" styling,
+// not something a deliberately designed UI would use. Each one is sized to
+// the surrounding font-size (1em) and tinted via currentColor so it always
+// matches its call site without extra per-instance CSS.
+const ICON_SVG = {
+  flame: '<path d="M12 2.2c3 3.9 5.6 7.4 5.6 10.8a5.6 5.6 0 1 1-11.2 0c0-2.1.9-3.7 2-5.1-.2 1.8.6 2.8 1.7 2.5 1.1-.3 1.4-1.7.7-3C9.9 5.8 11 4 12 2.2z"/>',
+  feather: '<path d="M19.8 3.3c-4.6.2-10.3 2.1-13.4 5.4C3.8 11.5 2.9 15 2.6 18.5c-.1.8.6 1.4 1.4 1.3 3.6-.5 7.2-1.6 9.8-3.9 3-2.7 5.3-7.4 6-12.6z"/>',
+  shield: '<path d="M12 2.4l7.2 3v5.5c0 4.9-3.1 8.9-7.2 10.3-4.1-1.4-7.2-5.4-7.2-10.3v-5.5z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>',
+  person: '<circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c.7-4 3.5-6.2 7.5-6.2s6.8 2.2 7.5 6.2z"/>',
+  paw: '<ellipse cx="12" cy="15.3" rx="5" ry="4.2"/><ellipse cx="5.6" cy="8.6" rx="2.1" ry="2.6"/><ellipse cx="10.3" cy="5.7" rx="2.1" ry="2.6"/><ellipse cx="15.7" cy="5.7" rx="2.1" ry="2.6"/><ellipse cx="18.4" cy="8.6" rx="2.1" ry="2.6"/>',
+  cube: '<path d="M12 2.3l8 4.3v10.8l-8 4.3-8-4.3V6.6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 6.6l8 4.3 8-4.3M12 10.9v10.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>',
+  idea: '<path d="M12 2.5a5.8 5.8 0 0 0-3.4 10.5c.6.5 1 1.2 1 2v.6h4.8v-.6c0-.8.4-1.5 1-2A5.8 5.8 0 0 0 12 2.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.6 18.8h4.8M10.2 21.2h3.6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>',
+  question: '<circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="1.6"/><text x="12" y="16.3" text-anchor="middle" font-size="12" font-weight="800" fill="currentColor">?</text>',
+  sparkle: '<path d="M12 2.4c.4 3.5 1.7 5.7 4.8 6.6-3.1.9-4.4 3.1-4.8 6.6-.4-3.5-1.7-5.7-4.8-6.6 3.1-.9 4.4-3.1 4.8-6.6z"/><path d="M19 14.2c.2 1.7.9 2.7 2.4 3.2-1.5.5-2.2 1.5-2.4 3.2-.2-1.7-.9-2.7-2.4-3.2 1.5-.5 2.2-1.5 2.4-3.2z"/>',
+  bolt: '<path d="M13 2 5 13.5h5.3L10 22l8.5-12.3H13z"/>',
+  flag: '<path d="M6 21.5V3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M6 4c2.4-1.6 4.6-1.6 7 0s4.6 1.6 7 0v8.4c-2.4 1.6-4.6 1.6-7 0s-4.6-1.6-7 0z"/>',
+  stopwatch: '<circle cx="12" cy="13.5" r="7.8" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 9v4.5l3 2M9.7 2.6h4.6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>',
+  globe: '<circle cx="12" cy="12" r="9.3" fill="none" stroke="currentColor" stroke-width="1.6"/><ellipse cx="12" cy="12" rx="3.9" ry="9.3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M2.7 12h18.6" fill="none" stroke="currentColor" stroke-width="1.6"/>'
+};
+function icon(name, size){
+  const s = size || "1em";
+  return '<svg class="ico" viewBox="0 0 24 24" width="'+s+'" height="'+s+'" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+ICON_SVG[name]+'</svg>';
+}
+
+// Feathers earned so far + current combo streak, derived purely from a results array
+// (["clean","retry",null,...]). A clean word extends the combo and pays a rising bonus,
+// capped so long runs don't spiral; a retry pays a flat consolation amount and resets the combo.
+function computeComboAndFeathers(results){
+  let combo = 0, total = 0;
+  results.forEach(r=>{
+    if(r === "clean"){ combo++; total += 2 + Math.min(combo-1, 3); }
+    else if(r === "retry"){ combo = 0; total += 1; }
+  });
+  return { combo, total };
+}
+
+function flattenPool(db){
+  const p = [];
+  db.categories.forEach(cat=>{
+    cat.words.forEach(w=>{
+      p.push({ catId: cat.id, label: cat.label, icon: cat.icon, noLadder: cat.noLadder, word: w });
+    });
+  });
+  return p;
+}
+function getForms(entry, level){ return entry.noLadder ? entry.word.forms : entry.word.levels[level].forms; }
+function getSub(entry, level){ return entry.noLadder ? "sjaldgæft/fast orð" : entry.word.levels[level].sub; }
+
+function attachDrag(chipEl, onDrop){
+  chipEl.addEventListener("pointerdown", (e)=>{
+    e.preventDefault();
+    const rect = chipEl.getBoundingClientRect();
+    const offsetX = e.clientX - rect.left, offsetY = e.clientY - rect.top;
+    chipEl.setPointerCapture(e.pointerId);
+    chipEl.classList.add("dragging");
+    chipEl.style.position = "fixed";
+    chipEl.style.left = rect.left+"px";
+    chipEl.style.top = rect.top+"px";
+    chipEl.style.width = rect.width+"px";
+    chipEl.style.zIndex = 1000;
+    chipEl.style.pointerEvents = "none";
+    function move(ev){
+      chipEl.style.left = (ev.clientX - offsetX)+"px";
+      chipEl.style.top = (ev.clientY - offsetY)+"px";
+    }
+    function up(ev){
+      chipEl.removeEventListener("pointermove", move);
+      chipEl.removeEventListener("pointerup", up);
+      chipEl.classList.remove("dragging");
+      const el = document.elementFromPoint(ev.clientX, ev.clientY);
+      const box = el ? el.closest(".refur-box") : null;
+      onDrop(box);
+    }
+    chipEl.addEventListener("pointermove", move);
+    chipEl.addEventListener("pointerup", up);
+  });
+}
+
+function renderPuzzle(root, entry, level, placed, mistakes, onChange){
+  const forms = getForms(entry, level);
+  root.querySelector(".headword").textContent = entry.word.lemma;
+  root.querySelector(".gloss").textContent = entry.word.gloss || "";
+  root.querySelector(".sublabel").textContent = getSub(entry, level);
+
+  const boxwrap = root.querySelector(".boxes");
+  boxwrap.innerHTML = "";
+  CASE_KEYS.forEach((ck)=>{
+    const box = document.createElement("div");
+    box.className = "refur-box";
+    box.dataset.case = ck;
+    const placedCase = placed[ck];
+    const filled = placedCase !== null && placedCase !== undefined;
+    const isRight = filled && forms[placedCase] === forms[ck];
+    if(filled){
+      box.classList.add("filled");
+      box.classList.add(isRight ? "correct" : "wrong");
+    }
+    box.innerHTML =
+      '<div class="box-label">'+CASE_LABELS[ck]+'</div>'+
+      '<div class="box-trigger">'+CASE_TRIGGERS[ck]+'</div>'+
+      (filled ? '<div class="box-answer '+(isRight?"correct":"wrong")+'">'+forms[placedCase]+'</div>' : '<div style="height:20px"></div>');
+    if(filled){
+      box.addEventListener("click", ()=>{
+        placed[ck] = null;
+        onChange();
+      });
+    }
+    boxwrap.appendChild(box);
+  });
+
+  const usedCases = Object.values(placed).filter(v=>v!==null && v!==undefined);
+  const tray = root.querySelector(".tray");
+  tray.innerHTML = "";
+  const trayOrder = seededShuffle(CASE_KEYS, hashStr(entry.word.lemma+level));
+  trayOrder.forEach((ck)=>{
+    if(usedCases.includes(ck)) return;
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = forms[ck];
+    chip.dataset.case = ck;
+    attachDrag(chip, (box)=>{
+      if(box){
+        const targetCase = box.dataset.case;
+        if(placed[targetCase] === null || placed[targetCase] === undefined){
+          const isRight = forms[ck] === forms[targetCase];
+          if(!isRight) mistakes.add(ck);
+          placed[targetCase] = ck;
+          notifyNative(isRight ? "answerCorrect" : "answerWrong");
+        }
+      }
+      onChange();
+    });
+    tray.appendChild(chip);
+  });
+
+  const filledCount = Object.values(placed).filter(v=>v!==null && v!==undefined).length;
+  const correctCount = CASE_KEYS.filter(boxCase=>{
+    const pc = placed[boxCase];
+    return pc !== null && pc !== undefined && forms[pc] === forms[boxCase];
+  }).length;
+  const scoreEl = root.querySelector(".score");
+  if(scoreEl) scoreEl.textContent = correctCount+" / 4 rétt";
+
+  const allCorrect = correctCount === 4;
+  if(allCorrect && !ls_get("refur:hasCompletedFirstWord", false)){
+    ls_set("refur:hasCompletedFirstWord", true);
+    notifyNative("firstWordCompleted");
+  }
+  const factpanel = root.querySelector(".factpanel");
+  if(factpanel){
+    if(allCorrect && entry.word.fact){
+      factpanel.classList.remove("hidden");
+      factpanel.querySelector(".fb").textContent = entry.word.fact;
+    } else {
+      factpanel.classList.add("hidden");
+    }
+  }
+
+  const caseExplainer = root.querySelector(".case-explainer");
+  if(caseExplainer){
+    if(allCorrect){
+      CASE_KEYS.forEach((ck)=>{
+        const desc = caseExplainer.querySelector('[data-case="'+ck+'"]');
+        if(desc) desc.textContent = CASE_TRIGGERS[ck]+" "+forms[ck]+".";
+      });
+      caseExplainer.classList.remove("hidden");
+      fitCaseExplainerToScreen(caseExplainer);
+    } else {
+      caseExplainer.classList.add("hidden");
+    }
+  }
+  return { filledCount, correctCount, allCorrect };
+}
+
+// Only show the case-usage examples if they fit without pushing the page
+// into scrolling territory -- this app's screens are meant to be seen in
+// full at a glance, so supplementary content yields rather than causing
+// overflow.
+function fitCaseExplainerToScreen(el){
+  requestAnimationFrame(()=>{
+    if(document.documentElement.scrollHeight > window.innerHeight + 1){
+      el.classList.add("hidden");
+    }
+  });
+}
+
+const PUZZLE_MARKUP =
+  '<div class="headrow"><span class="wordpos"></span><span class="feathers-badge hidden"></span><div class="diffbar"></div></div>'+
+  '<div class="wordblock"><div class="headword"></div><div class="gloss"></div><div class="sublabel"></div></div>'+
+  '<div class="boxes"></div>'+
+  '<div class="trayhint">Dragðu orðin á réttan stað</div>'+
+  '<div class="tray"></div>'+
+  '<div class="factpanel hidden"><div class="ft">Vissir þú þetta?</div><div class="fb"></div></div>'+
+  '<div class="navrow"><button class="prevbtn">&larr; Fyrra orð</button><span class="score">0 / 4 rétt</span><button class="nextbtn">Næsta orð &rarr;</button></div>'+
+  '<div class="case-explainer hidden"><div class="ce-title">Dæmi um notkun</div><div class="ce-grid">'+
+    '<div class="ce-item"><span class="ce-name">Nefnifall</span><span class="ce-desc" data-case="nf"></span></div>'+
+    '<div class="ce-item"><span class="ce-name">Þolfall</span><span class="ce-desc" data-case="þf"></span></div>'+
+    '<div class="ce-item"><span class="ce-name">Þágufall</span><span class="ce-desc" data-case="þgf"></span></div>'+
+    '<div class="ce-item"><span class="ce-name">Eignarfall</span><span class="ce-desc" data-case="ef"></span></div>'+
+  '</div></div>';
+
+// ---------------- Practice mode ----------------
+let pCatIdx = 0, pWordIdx = 0, pLevel = "easy", pPlaced = {}, pMistakes = new Set();
+
+function resetPracticePuzzle(){
+  pPlaced = {}; CASE_KEYS.forEach(ck=>pPlaced[ck]=null);
+  pMistakes = new Set();
+  renderPractice();
+}
+function renderPractice(){
+  const view = document.getElementById("view-practice");
+  if(!view.dataset.built){
+    view.innerHTML = '<div class="catbar"></div>'+PUZZLE_MARKUP;
+    view.dataset.built = "1";
+    view.querySelector(".prevbtn").addEventListener("click", ()=>{
+      const n = DB.categories[pCatIdx].words.length;
+      pWordIdx = (pWordIdx - 1 + n) % n;
+      resetPracticePuzzle();
+    });
+    view.querySelector(".nextbtn").addEventListener("click", ()=>{
+      const n = DB.categories[pCatIdx].words.length;
+      pWordIdx = (pWordIdx + 1) % n;
+      resetPracticePuzzle();
+    });
+  }
+  const catbar = view.querySelector(".catbar");
+  catbar.innerHTML = "";
+  DB.categories.forEach((cat, i)=>{
+    const b = document.createElement("button");
+    b.className = i===pCatIdx ? "active" : "";
+    b.innerHTML = "<span>"+cat.label+"</span>";
+    b.addEventListener("click", ()=>{ pCatIdx=i; pWordIdx=0; pLevel="easy"; resetPracticePuzzle(); });
+    catbar.appendChild(b);
+  });
+
+  const cat = DB.categories[pCatIdx];
+  const entry = { catId: cat.id, label: cat.label, icon: cat.icon, noLadder: cat.noLadder, word: cat.words[pWordIdx] };
+  view.querySelector(".wordpos").textContent = "Orð "+(pWordIdx+1)+"/"+cat.words.length;
+
+  const diffbar = view.querySelector(".diffbar");
+  diffbar.innerHTML = "";
+  if(cat.noLadder){
+    diffbar.style.display = "none";
+  } else {
+    diffbar.style.display = "flex";
+    ["easy","medium","hard"].forEach(lv=>{
+      const b = document.createElement("button");
+      b.className = lv===pLevel ? "active" : "";
+      b.textContent = lv==="easy" ? "Létt" : lv==="medium" ? "Miðlungs" : "Erfitt";
+      b.addEventListener("click", ()=>{ pLevel=lv; resetPracticePuzzle(); });
+      diffbar.appendChild(b);
+    });
+  }
+
+  renderPuzzle(view, entry, pLevel, pPlaced, pMistakes, renderPractice);
+}
+
+// ---------------- Daily mode ----------------
+let dailySet = [];
+let dIdx = 0;
+let dPlaced = {};
+let dMistakes = new Set();
+let dResults = [];
+let dDate = todayStr();
+
+function loadDailyState(){
+  const saved = ls_get("refur:daily:"+dDate, null);
+  if(saved){
+    dIdx = saved.idx;
+    dResults = saved.results;
+  } else {
+    dIdx = 0;
+    dResults = new Array(dailySet.length).fill(null);
+  }
+  dPlaced = {}; CASE_KEYS.forEach(ck=>dPlaced[ck]=null);
+  dMistakes = new Set();
+}
+function saveDailyState(){
+  ls_set("refur:daily:"+dDate, { idx: dIdx, results: dResults });
+}
+
+function renderDaily(){
+  const view = document.getElementById("view-daily");
+  const allDone = dResults.every(r=>r!==null);
+  if(allDone){
+    renderStreakScreen(view);
+    return;
+  }
+  if(!view.dataset.built || view.dataset.mode !== "puzzle"){
+    view.innerHTML = PUZZLE_MARKUP;
+    view.dataset.built = "1";
+    view.dataset.mode = "puzzle";
+    view.querySelector(".prevbtn").addEventListener("click", ()=>{
+      if(dIdx>0){ dIdx--; dPlaced={}; CASE_KEYS.forEach(ck=>dPlaced[ck]=null); dMistakes=new Set(); saveDailyState(); renderDaily(); }
+    });
+    view.querySelector(".nextbtn").addEventListener("click", ()=>{
+      advanceDaily();
+    });
+  }
+  view.querySelector(".diffbar").style.display = "none";
+  view.querySelector(".wordpos").textContent = "Orð "+(dIdx+1)+"/"+dailySet.length;
+
+  const entry = dailySet[dIdx];
+  const level = "easy";
+  const status = renderPuzzle(view, entry, level, dPlaced, dMistakes, ()=>renderDaily());
+
+  const nextBtn = view.querySelector(".nextbtn");
+  nextBtn.disabled = !status.allCorrect;
+  nextBtn.style.opacity = status.allCorrect ? "1" : "0.5";
+  if(status.allCorrect && dResults[dIdx]===null){
+    const before = computeComboAndFeathers(dResults.slice(0, dIdx)).total;
+    dResults[dIdx] = dMistakes.size>0 ? "retry" : "clean";
+    const after = computeComboAndFeathers(dResults.slice(0, dIdx+1)).total;
+    ls_set("refur:feathers", ls_get("refur:feathers", 0) + (after - before));
+    saveDailyState();
+  }
+
+  const feathersBadge = view.querySelector(".feathers-badge");
+  if(dResults[dIdx] !== null){
+    const upTo = computeComboAndFeathers(dResults.slice(0, dIdx+1));
+    const before = computeComboAndFeathers(dResults.slice(0, dIdx)).total;
+    const wordFeathers = upTo.total - before;
+    feathersBadge.innerHTML = "+"+wordFeathers+" "+icon('feather')+(upTo.combo>=2 ? "  combo x"+upTo.combo : "");
+    feathersBadge.classList.remove("hidden");
+  } else {
+    feathersBadge.classList.add("hidden");
+  }
+}
+function advanceDaily(){
+  if(dIdx < dailySet.length-1){
+    dIdx++;
+    dPlaced = {}; CASE_KEYS.forEach(ck=>dPlaced[ck]=null);
+    dMistakes = new Set();
+    saveDailyState();
+    renderDaily();
+  } else {
+    updateStreakOnCompletion();
+    renderDaily();
+  }
+}
+const MAX_SHIELDS = 2;
+function daysBetween(a, b){
+  const da = new Date(a+"T00:00:00"), db = new Date(b+"T00:00:00");
+  return Math.round((db - da) / 86400000);
+}
+function updateStreakOnCompletion(){
+  const already = ls_get("refur:lastCompleteDate", null);
+  if(already === dDate) return;
+  const prevStreak = ls_get("refur:streak", 0);
+  let shields = ls_get("refur:shields", 0);
+  let newStreak = 1;
+  let shieldUsed = false;
+  if(already !== null){
+    const gap = daysBetween(already, dDate) - 1; // fully-skipped days in between
+    if(gap <= 0){
+      newStreak = prevStreak + 1;
+    } else if(shields >= gap){
+      // enough banked shields to cover every missed day: streak survives
+      shields -= gap;
+      shieldUsed = true;
+      newStreak = prevStreak + 1;
+      const shielded = ls_get("refur:shieldedDays", {});
+      for(let g=1; g<=gap; g++){ shielded[addDays(already, g)] = true; }
+      ls_set("refur:shieldedDays", shielded);
+    } else {
+      newStreak = 1;
+    }
+  }
+  if(newStreak > 0 && newStreak % 7 === 0){
+    shields = Math.min(MAX_SHIELDS, shields + 1);
+  }
+  ls_set("refur:shields", shields);
+  if(shieldUsed) ls_set("refur:lastShieldUseDate", dDate);
+  ls_set("refur:streak", newStreak);
+  if(newStreak >= 3 && !ls_get("refur:hasFiredMotivationMilestone", false)){
+    ls_set("refur:hasFiredMotivationMilestone", true);
+    notifyNative("motivationMilestoneReached");
+  }
+  const best = ls_get("refur:bestStreak", 0);
+  ls_set("refur:bestStreak", Math.max(best, newStreak));
+  ls_set("refur:lastCompleteDate", dDate);
+  const history = ls_get("refur:history", {});
+  history[dDate] = true;
+  ls_set("refur:history", history);
+
+  // Native decides whether to actually sync this (signed-in users only,
+  // same pattern as motivationMilestoneReached) -- the web layer doesn't
+  // need to know the auth state to fire it.
+  notifyNative("dailyPuzzleCompleted", {
+    puzzleDate: dDate,
+    correctCount: dResults.filter(r=>r==="clean").length,
+    mistakeCount: dResults.filter(r=>r==="retry").length
+  });
+}
+
+function renderStreakScreen(view){
+  view.dataset.built = "";
+  view.dataset.mode = "streak";
+  const streak = ls_get("refur:streak", 0);
+  const best = ls_get("refur:bestStreak", 0);
+  const history = ls_get("refur:history", {});
+  const shieldedDays = ls_get("refur:shieldedDays", {});
+  const shieldUsedToday = ls_get("refur:lastShieldUseDate", null) === dDate;
+
+  const WEEKDAY_LETTERS = ["S","M","Þ","M","F","F","L"]; // Date.getDay(): 0=Sun..6=Sat
+  let weekLabels = "";
+  for(let i=6;i>=0;i--){
+    const ds = addDays(dDate, -i-7);
+    const d = new Date(ds+"T00:00:00");
+    weekLabels += "<span>"+WEEKDAY_LETTERS[d.getDay()]+"</span>";
+  }
+  let cal = "";
+  for(let i=13;i>=0;i--){
+    const ds = addDays(dDate, -i);
+    const done = !!history[ds];
+    const shielded = !done && !!shieldedDays[ds];
+    const isToday = ds === dDate;
+    const cls = done ? " done" : shielded ? " shielded" : "";
+    cal += '<div class="calcell'+cls+(isToday?" today":"")+'">'+(done?"✓":shielded?icon('shield'):"")+'</div>';
+  }
+
+  const icons = {nofn:icon('person'),dyr:icon('paw'),hlutir:icon('cube'),nyyrdi:icon('idea'),skritin:icon('question')};
+  let resultCells = "";
+  let squares = "";
+  let cleanCount = 0;
+  dailySet.forEach((entry,i)=>{
+    const r = dResults[i];
+    const cls = r==="clean" ? "clean" : r==="retry" ? "retry" : "";
+    if(r==="clean") cleanCount++;
+    const badge = r==="clean" ? '<span class="badge clean">&#10003;</span>' : r==="retry" ? '<span class="badge retry">&#8635;</span>' : "";
+    resultCells += '<div class="resultcell '+cls+'">'+(icons[entry.catId]||"·")+badge+'</div>';
+    squares += r==="clean" ? "🔥" : r==="retry" ? "❌" : "⬜";
+  });
+  const summary = cleanCount===dailySet.length
+    ? "Öll "+dailySet.length+" orðin rétt í fyrstu tilraun! "+icon('sparkle')
+    : cleanCount+" af "+dailySet.length+" réttum í fyrstu tilraun";
+  const earnedToday = computeComboAndFeathers(dResults).total;
+
+  view.innerHTML =
+    '<div class="streakcard"><div class="streak-icon">'+icon('flame','28px')+'</div><div><div class="streaknum">'+streak+' daga í röð</div><div class="streaksub">besta lengd: '+best+' dagar · +'+earnedToday+' '+icon('feather')+' í dag</div></div></div>'+
+    (shieldUsedToday ? '<div class="shield-note">'+icon('shield')+' Skjöldur notaður til að vernda röðina þína</div>' : "")+
+    '<div class="section-block"><div class="sectionhead"><span class="n">1</span>Síðustu 14 dagar</div><div class="weekrow">'+weekLabels+'</div><div class="calgrid">'+cal+'</div></div>'+
+    '<div class="section-block"><div class="sectionhead"><span class="n">2</span>Orðin í dag</div><div class="resultgrid">'+resultCells+'</div><div class="summary-line">'+summary+'</div></div>'+
+    '<div class="sharebox"><div class="sharetext">Refur — '+dDate+'\n'+squares+'\n'+streak+' daga í röð</div>'+
+    '<button class="sharebtn">Deila</button><div class="copied">Afritað í klemmuspjald ✓</div></div>'+
+    '<button class="secondarybtn practicebridge">Halda áfram í Æfingu &rarr;</button>';
+
+  view.querySelector(".sharebtn").addEventListener("click", ()=>{
+    const text = "Refur — "+dDate+"\n"+squares+"\n"+streak+" daga í röð\nrefur.is";
+    try{ navigator.clipboard.writeText(text); }catch(e){}
+    const c = view.querySelector(".copied");
+    c.style.display = "block";
+    setTimeout(()=>{ c.style.display = "none"; }, 2000);
+  });
+  view.querySelector(".practicebridge").addEventListener("click", showPractice);
+}
+
+// ---------------- Navigation / journey map ----------------
+function renderTopbar(kind, title){
+  const bar = document.getElementById("topbar");
+  if(kind === "map"){
+    bar.innerHTML = '<span class="brand">Refur</span><button class="practicepill">Æfing</button>';
+    bar.querySelector(".practicepill").addEventListener("click", showPractice);
+  } else {
+    bar.innerHTML = '<button class="backbtn" aria-label="Til baka í kort">&larr;</button><span class="viewtitle">'+title+'</span>';
+    bar.querySelector(".backbtn").addEventListener("click", showMap);
+  }
+  requestAnimationFrame(reportTopbarLayout);
+}
+
+// The native ProfileButton has to sit centered in the 46px gutter
+// `.topbar`'s CSS reserves (see .topbar{padding-right:46px}), but a fixed
+// SwiftUI padding constant drifts the moment this row's height or font
+// metrics change (Dynamic Type, a future topbar variant, ...) -- the same
+// class of bug the map-scroll height had. So instead of guessing, measure
+// the real rendered rect after each topbar render and bridge the exact
+// numbers native needs (already expressed as SwiftUI .padding() values, in
+// points -- CSS px map 1:1 to points here since the viewport is locked to
+// width=device-width/scale=1) over to WebView.swift's message handler.
+const PROFILE_BUTTON_SIZE = 38;
+function reportTopbarLayout(){
+  const bar = document.getElementById("topbar");
+  if(!bar) return;
+  const rect = bar.getBoundingClientRect();
+  const gutterCenterX = rect.right - 23; // 46px reserved gutter, centered
+  const centerY = rect.top + rect.height/2;
+  notifyNative("topbarLayout", {
+    trailing: window.innerWidth - gutterCenterX - PROFILE_BUTTON_SIZE/2,
+    top: centerY - PROFILE_BUTTON_SIZE/2
+  });
+}
+function showView(id){
+  ["view-map","view-daily","view-practice","view-lightning","view-factions"].forEach(v=>{
+    document.getElementById(v).classList.toggle("hidden", v!==id);
+  });
+}
+function showMap(){
+  if(lgActive){ lgActive = false; notifyNative("lightningLost"); }
+  renderTopbar("map");
+  showView("view-map");
+  renderMap();
+}
+function showDaily(){
+  renderTopbar("back","Dagsþraut");
+  showView("view-daily");
+}
+function showPractice(){
+  renderTopbar("back","Æfing");
+  showView("view-practice");
+}
+function showFactions(){
+  renderTopbar("back","Málsveitir");
+  showView("view-factions");
+  renderFactions();
+}
+function renderMap(){
+  const view = document.getElementById("view-map");
+  const streak = ls_get("refur:streak", 0);
+  const feathers = ls_get("refur:feathers", 0);
+  const shields = ls_get("refur:shields", 0);
+  const history = ls_get("refur:history", {});
+  const shieldedDays = ls_get("refur:shieldedDays", {});
+  const todayDone = dResults.length>0 && dResults.every(r=>r!==null);
+
+  const firstSeen = ls_get("refur:firstSeenDate", dDate);
+  const DAYS_SHOWN = Math.min(90, Math.max(8, daysBetween(firstSeen, dDate) + 1));
+  const positions = ["pos-left","pos-center","pos-right"];
+  const ROW_HEIGHT = 70; // 56px node + 14px margin-bottom -- keep in sync with .map-node/.map-row
+  let rows = "";
+  let posSequence = [];
+  for(let i=DAYS_SHOWN-1;i>=0;i--){
+    const ds = addDays(dDate, -i);
+    const isToday = ds === dDate;
+    const done = isToday ? todayDone : !!history[ds];
+    const shielded = !isToday && !done && !!shieldedDays[ds];
+    const rowIdx = DAYS_SHOWN-1-i;
+    const pos = positions[rowIdx % 3];
+    posSequence.push(pos);
+    const dayNum = new Date(ds+"T00:00:00").getDate();
+    let stateClass, inner;
+    if(isToday && !done){ stateClass = "today-open"; inner = dayNum; }
+    else if(isToday && done){ stateClass = "today-done"; inner = "&#10003;"; }
+    else if(done){ stateClass = "done"; inner = "&#10003;"; }
+    else if(shielded){ stateClass = "shielded"; inner = icon('shield'); }
+    else { stateClass = "missed"; inner = dayNum; }
+    const fox = isToday ? '<img class="map-fox" src="icons/icon-192.png" alt="">' : "";
+    rows += '<div class="map-row '+pos+'"><div class="map-node '+stateClass+'" data-today="'+(isToday?"1":"0")+'">'+fox+inner+'</div></div>';
+  }
+  const pathHeight = DAYS_SHOWN*ROW_HEIGHT;
+
+  const actionButtons =
+    (lightningUnlocked() ? '<button class="map-action-btn lightning-entry">'+icon('bolt')+' Eldingar-hamur</button>' : '') +
+    '<button class="map-action-btn factions-entry">'+icon('flag')+' Málsveitir</button>';
+
+  view.innerHTML =
+    '<div class="map-toprow"><div class="map-streakbar">'+icon('flame')+' '+streak+' daga í röð'+(shields>0 ? " &middot; "+icon('shield')+"&times;"+shields : "")+'</div>'+
+    '<div class="map-feathers">'+icon('feather')+' '+feathers+'</div></div>'+
+    '<div class="map-actions-row">'+actionButtons+'</div>'+
+    '<div class="map-scroll"><div class="map-path">'+
+      '<svg class="map-track-svg" preserveAspectRatio="none"><path fill="none" stroke="var(--refur-border)" stroke-width="2" vector-effect="non-scaling-stroke" stroke-dasharray="2 6" stroke-linecap="round"/></svg>'+
+      rows+
+    '</div></div>'+
+    '<button class="mapcta">'+(todayDone ? "Sjá niðurstöður dagsins" : "Byrja daginn")+'</button>'+
+    '<div class="ambient-ticker hidden"></div>';
+
+  view.querySelectorAll('.map-node[data-today="1"]').forEach(el=>{
+    el.addEventListener("click", showDaily);
+  });
+  view.querySelector(".mapcta").addEventListener("click", showDaily);
+  const lightningBtn = view.querySelector(".lightning-entry");
+  if(lightningBtn) lightningBtn.addEventListener("click", startLightning);
+  view.querySelector(".factions-entry").addEventListener("click", showFactions);
+  startAmbientTicker();
+
+  // Wire up the winding path and the scroll position after layout, using
+  // real measured widths -- the node centers aren't at clean round
+  // percentages (padding is %, node width is a fixed 56px), so guessing
+  // fixed percentages would drift out of alignment across device widths.
+  requestAnimationFrame(()=>{
+    const pathEl = view.querySelector(".map-path");
+    const svgEl = view.querySelector(".map-track-svg");
+    if(pathEl && svgEl){
+      const w = pathEl.clientWidth;
+      const xFor = {"pos-left": w*0.06+28, "pos-center": w/2, "pos-right": w-(w*0.06)-28};
+      let d = "";
+      posSequence.forEach((pos, k)=>{
+        const x = xFor[pos];
+        const y = k*ROW_HEIGHT+28;
+        if(k===0){ d = "M "+x+" "+y; }
+        else {
+          const prevY = (k-1)*ROW_HEIGHT+28;
+          const midY = (prevY+y)/2;
+          d += " C "+xFor[posSequence[k-1]]+" "+midY+", "+x+" "+midY+", "+x+" "+y;
+        }
+      });
+      svgEl.setAttribute("viewBox", "0 0 "+w+" "+pathHeight);
+      svgEl.querySelector("path").setAttribute("d", d);
+    }
+    fitMapScrollToScreen();
+  });
+}
+
+// The CSS max-height on .map-scroll is a fixed estimate of the surrounding
+// chrome (topbar, streak row, CTA, ...), but fixed-height siblings that
+// come and go (the lightning-mode button, the ambient ticker once it has
+// real content) keep shifting that total in ways a single guessed
+// constant drifts out of sync with. Self-correct instead of re-guessing:
+// if the page still overflows the viewport after layout, shrink the
+// scroll region by exactly the overflow amount. Called after the initial
+// map render and again whenever the ticker's content changes.
+function fitMapScrollToScreen(){
+  const scrollEl = document.querySelector("#view-map .map-scroll");
+  if(!scrollEl) return;
+  scrollEl.scrollTop = scrollEl.scrollHeight; // land on today, scroll up for history
+  const overflow = document.documentElement.scrollHeight - window.innerHeight;
+  if(overflow > 0){
+    const current = scrollEl.getBoundingClientRect().height;
+    scrollEl.style.maxHeight = Math.max(80, current - overflow - 4)+"px";
+    scrollEl.scrollTop = scrollEl.scrollHeight;
+  }
+}
+
+// ---------------- Lightning mode ----------------
+// A 20s time-attack round: 5 words, drag-drop reuses the exact same
+// renderPuzzle/attachDrag machinery as the daily puzzle and practice mode
+// -- only the timer/haptic layer is new. The countdown itself is owned
+// natively (see WebView.swift's Coordinator) rather than a JS setInterval,
+// so the haptic "heartbeat" stays precisely in sync with the visible bar
+// even if this webview is momentarily deprioritized.
+const LIGHTNING_WORDS = 5;
+const LIGHTNING_SECONDS = 20;
+let lgWords = [], lgWordIdx = 0, lgPlaced = {}, lgMistakes = new Set(), lgActive = false;
+
+function lightningUnlocked(){
+  return ls_get("refur:streak", 0) >= 3;
+}
+
+function startLightning(){
+  lgWords = seededShuffle(pool, Date.now() ^ Math.floor(Math.random()*1e9)).slice(0, LIGHTNING_WORDS);
+  lgWordIdx = 0;
+  lgPlaced = {}; CASE_KEYS.forEach(ck=>lgPlaced[ck]=null);
+  lgMistakes = new Set();
+  lgActive = true;
+  const view = document.getElementById("view-lightning");
+  view.dataset.built = "";
+  renderTopbar("back", "Eldingar-hamur");
+  showView("view-lightning");
+  renderLightningWord();
+  notifyNative("startLightningMode");
+}
+
+function renderLightningWord(){
+  const view = document.getElementById("view-lightning");
+  if(!view.dataset.built){
+    view.innerHTML =
+      '<div class="lightning-timerbar"><div class="lightning-timerfill"></div></div>'+
+      '<div class="lightning-count"></div>'+
+      '<div class="wordblock"><div class="headword"></div><div class="gloss"></div><div class="sublabel"></div></div>'+
+      '<div class="boxes"></div>'+
+      '<div class="trayhint">Dragðu orðin á réttan stað</div>'+
+      '<div class="tray"></div>';
+    view.dataset.built = "1";
+  }
+  view.querySelector(".lightning-count").textContent = "Orð "+(lgWordIdx+1)+"/"+LIGHTNING_WORDS;
+  const entry = lgWords[lgWordIdx];
+  const status = renderPuzzle(view, entry, "easy", lgPlaced, lgMistakes, onLightningChange);
+  if(status.allCorrect){
+    lgActive = false; // pause input during the brief pop before advancing
+    setTimeout(()=>{
+      if(lgWordIdx < LIGHTNING_WORDS-1){
+        lgWordIdx++;
+        lgPlaced = {}; CASE_KEYS.forEach(ck=>lgPlaced[ck]=null);
+        lgMistakes = new Set();
+        lgActive = true;
+        renderLightningWord();
+      } else {
+        winLightning();
+      }
+    }, 450);
+  }
+}
+function onLightningChange(){
+  if(lgActive) renderLightningWord();
+}
+function winLightning(){
+  notifyNative("lightningWon");
+  ls_set("refur:feathers", ls_get("refur:feathers", 0) + 15);
+  const view = document.getElementById("view-lightning");
+  view.dataset.built = "";
+  view.innerHTML =
+    '<div class="lightning-result win">'+
+      '<div class="lightning-result-emoji">'+icon('bolt','48px')+'</div>'+
+      '<div class="lightning-result-title">Þú gerðir það!</div>'+
+      '<div class="lightning-result-sub">+15 '+icon('feather')+'</div>'+
+      '<button class="lightning-retry">Reyna aftur</button>'+
+      '<button class="lightning-exit">Til baka á kortið</button>'+
+    '</div>';
+  view.querySelector(".lightning-retry").addEventListener("click", startLightning);
+  view.querySelector(".lightning-exit").addEventListener("click", showMap);
+}
+function loseLightning(){
+  lgActive = false;
+  const view = document.getElementById("view-lightning");
+  view.dataset.built = "";
+  view.innerHTML =
+    '<div class="lightning-result lose">'+
+      '<div class="lightning-result-emoji">'+icon('stopwatch','48px')+'</div>'+
+      '<div class="lightning-result-title">Tíminn rann út</div>'+
+      '<button class="lightning-retry">Reyna aftur</button>'+
+      '<button class="lightning-exit">Til baka á kortið</button>'+
+    '</div>';
+  view.querySelector(".lightning-retry").addEventListener("click", startLightning);
+  view.querySelector(".lightning-exit").addEventListener("click", showMap);
+}
+// Called by native (see WebView.swift) every ~100ms while the countdown runs.
+window.__lightningTick = function(remaining){
+  const fill = document.querySelector(".lightning-timerfill");
+  if(!fill) return;
+  fill.style.width = Math.max(0, remaining/LIGHTNING_SECONDS*100)+"%";
+  fill.classList.toggle("warn", remaining <= 10 && remaining > 5);
+  fill.classList.toggle("danger", remaining <= 5);
+};
+// Called by native when the countdown reaches zero.
+window.__lightningTimedOut = function(){
+  if(lgActive) loseLightning();
+};
+
+// ---------------- Ambient community ----------------
+// A read-only, honest social-proof ticker on the map: a live count of
+// anonymous, non-persisting presence pings (works with no account), plus
+// real recent-completion events for signed-in users who've set a native
+// language. No fabricated numbers -- if there's nothing real to show, the
+// ticker just stays hidden.
+const SUPABASE_URL = "https://wlgbgsngxwvhlrozxtli.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndsZ2Jnc25neHd2aGxyb3p4dGxpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODUyMjYyNjYsImV4cCI6MjEwMDgwMjI2Nn0.-Pybu7eAY1fAaxinHGHr6SdTGzcyrQ4NboJsonQQrBI";
+const LANGUAGE_FLAGS = {
+  en:"🇬🇧", pl:"🇵🇱", es:"🇪🇸", de:"🇩🇪", fr:"🇫🇷", it:"🇮🇹", pt:"🇵🇹", ru:"🇷🇺",
+  uk:"🇺🇦", lt:"🇱🇹", vi:"🇻🇳", th:"🇹🇭", ar:"🇸🇦", zh:"🇨🇳", ja:"🇯🇵", ko:"🇰🇷", is:"🇮🇸"
+};
+// Mirrors OnboardingViews.swift's NativeLanguageSheet language list.
+const LANGUAGE_NAMES = {
+  en:"English", pl:"Polski", es:"Español", de:"Deutsch", fr:"Français", it:"Italiano",
+  pt:"Português", ru:"Русский", uk:"Українська", lt:"Lietuvių", vi:"Tiếng Việt", th:"ไทย",
+  ar:"العربية", zh:"中文", ja:"日本語", ko:"한국어", is:"Íslenska"
+};
+
+function anonPlayerId(){
+  let id = ls_get("refur:anonId", null);
+  if(!id){
+    id = "anon-"+Math.random().toString(36).slice(2)+Date.now().toString(36);
+    ls_set("refur:anonId", id);
+  }
+  return id;
+}
+
+function pingPresence(){
+  try{
+    fetch(SUPABASE_URL+"/rest/v1/presence_pings", {
+      method: "POST",
+      headers: {
+        "apikey": SUPABASE_ANON_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates,return=minimal"
+      },
+      body: JSON.stringify({
+        anon_id: anonPlayerId(),
+        native_language: (window.__refurAuth && window.__refurAuth.nativeLanguage) || null,
+        last_seen: new Date().toISOString()
+      })
+    }).catch(()=>{});
+  }catch(e){}
+}
+
+let tickerMessages = [];
+let tickerIdx = 0;
+let ambientTickerStarted = false;
+
+function refreshTicker(){
+  pingPresence();
+  const rpc = (fn)=>fetch(SUPABASE_URL+"/rest/v1/rpc/"+fn, {
+    method: "POST",
+    headers: {"apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json"},
+    body: "{}"
+  }).then(r=>r.ok ? r.json() : null).catch(()=>null);
+
+  Promise.all([rpc("get_active_player_count"), rpc("get_recent_completions")]).then(([count, completions])=>{
+    const messages = [];
+    if(typeof count === "number" && count > 0){
+      messages.push(icon('flame')+" "+count+" "+(count===1 ? "manneskja er" : "manns eru")+" að spila núna");
+    }
+    if(Array.isArray(completions)){
+      completions.slice(0, 5).forEach(c=>{
+        const flag = LANGUAGE_FLAGS[c.native_language] || icon('globe');
+        messages.push(flag+" Leikmaður var að klára dagsþrautina");
+      });
+    }
+    tickerMessages = messages;
+    tickerIdx = 0;
+    renderTickerMessage();
+  });
+}
+
+function renderTickerMessage(){
+  const el = document.querySelector(".ambient-ticker");
+  if(!el) return;
+  if(tickerMessages.length === 0){
+    el.classList.add("hidden");
+    return;
+  }
+  el.classList.remove("hidden");
+  el.innerHTML = tickerMessages[tickerIdx % tickerMessages.length];
+  tickerIdx++;
+  // The ticker text arrives asynchronously, after the map's initial
+  // layout-fit pass already ran -- re-fit now that it actually has
+  // content, but only if the map is the view currently on screen.
+  if(!document.getElementById("view-map").classList.contains("hidden")){
+    requestAnimationFrame(fitMapScrollToScreen);
+  }
+}
+
+function startAmbientTicker(){
+  if(ambientTickerStarted) return;
+  ambientTickerStarted = true;
+  refreshTicker();
+  setInterval(refreshTicker, 25000); // re-fetch real data
+  setInterval(renderTickerMessage, 6000); // rotate through what we already have
+}
+
+// ---------------- Language factions ----------------
+// Weekly leaderboard by native language, ranked by average accuracy (not
+// raw totals) so the largest populations don't automatically win -- reads
+// whatever native_language a signed-in user already set through the
+// existing contextual prompt; this screen never asks for it itself.
+function renderFactions(){
+  const view = document.getElementById("view-factions");
+  const auth = window.__refurAuth || {signedIn:false, nativeLanguage:null};
+
+  let joinBlock = "";
+  if(!auth.signedIn){
+    joinBlock =
+      '<div class="factions-join"><div class="factions-join-text">Skráðu þig inn og veldu tungumál til að taka þátt í liðakeppninni.</div>'+
+      '<button class="factions-join-btn" id="factions-join-action">Skrá inn</button></div>';
+  } else if(!auth.nativeLanguage){
+    joinBlock =
+      '<div class="factions-join"><div class="factions-join-text">Veldu tungumál til að taka þátt í liðakeppninni.</div>'+
+      '<button class="factions-join-btn" id="factions-join-action">Velja tungumál</button></div>';
+  }
+
+  view.innerHTML = joinBlock + '<div class="factions-list">Sæki stöðu...</div>';
+
+  const joinBtn = document.getElementById("factions-join-action");
+  if(joinBtn){
+    joinBtn.addEventListener("click", ()=>{
+      notifyNative(auth.signedIn ? "requestNativeLanguage" : "requestSignIn");
+    });
+  }
+
+  fetch(SUPABASE_URL+"/rest/v1/rpc/get_weekly_faction_leaderboard", {
+    method: "POST",
+    headers: {"apikey": SUPABASE_ANON_KEY, "Content-Type": "application/json"},
+    body: "{}"
+  }).then(r=>r.ok ? r.json() : []).catch(()=>[]).then(rows=>{
+    const listEl = view.querySelector(".factions-list");
+    if(!listEl) return;
+    if(!Array.isArray(rows) || rows.length === 0){
+      listEl.innerHTML = '<div class="factions-empty">Engin gögn ennþá — verið fyrst til að skora! '+icon('flag')+'</div>';
+      return;
+    }
+    listEl.innerHTML = rows.map((r, i)=>{
+      const flag = LANGUAGE_FLAGS[r.native_language] || icon('globe');
+      const name = LANGUAGE_NAMES[r.native_language] || r.native_language || "?";
+      const mine = auth.nativeLanguage === r.native_language ? " mine" : "";
+      return '<div class="faction-row'+mine+'"><span class="faction-rank">'+(i+1)+'</span>'+
+        '<span class="faction-flag">'+flag+'</span>'+
+        '<span class="faction-name">'+name+'</span>'+
+        '<span class="faction-accuracy">'+r.avg_accuracy+'%</span>'+
+        '<span class="faction-count">'+r.player_count+' '+icon('person')+'</span></div>';
+    }).join("");
+  });
+}
+
+// ---------------- Boot ----------------
+if(!ls_get("refur:firstSeenDate", null)) ls_set("refur:firstSeenDate", dDate);
+
+fetch("words.json").then(r=>r.json()).then(db=>{
+  DB = db;
+  pool = flattenPool(db);
+  dailySet = seededShuffle(pool, hashStr(dDate)).slice(0, Math.min(5, pool.length));
+  loadDailyState();
+  renderDaily();
+  resetPracticePuzzle();
+  showMap();
+  splashDataReady = true;
+  maybeHideSplash();
+}).catch(()=>{
+  // never leave the splash stuck if the fetch fails for some reason
+  splashDataReady = true;
+  maybeHideSplash();
+});
+
+if("serviceWorker" in navigator){
+  window.addEventListener("load", ()=>{
+    navigator.serviceWorker.register("sw.js").catch(()=>{});
+  });
+}
+</script>
+</body>
+</html>

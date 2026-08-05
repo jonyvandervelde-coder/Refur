@@ -1,0 +1,50 @@
+# Xcode
+*.xcodeproj/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/
+DerivedData/
+build/
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.xcarchive
+
+# SPM
+.build/
+.swiftpm/
+Package.resolved
+
+# CocoaPods
+Pods/
+*.xcworkspace
+
+# Carthage
+Carthage/Build/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# macOS
+.DS_Store
+*.DS_Store
+.AppleDouble
+.LSOverride
+*.swp
+*~
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Sensitive / env
+*.env
+.env.local
+Secrets.swift
+Secrets.plist
+
+# Scripts output
+scripts/__pycache__/
+scripts/*.pyc

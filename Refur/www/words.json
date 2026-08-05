@@ -1,0 +1,211 @@
+{
+  "categories": [
+    {
+      "id": "nofn",
+      "label": "Nöfn",
+      "icon": "user",
+      "noLadder": true,
+      "words": [
+        {
+          "lemma": "Björn",
+          "gloss": "mannsnafn — og orðið yfir „björn“ (bear)",
+          "forms": { "nf": "Björn", "þf": "Björn", "þgf": "Birni", "ef": "Björns" }
+        },
+        {
+          "lemma": "Guðrún",
+          "gloss": "algengt kvenmannsnafn",
+          "forms": { "nf": "Guðrún", "þf": "Guðrúnu", "þgf": "Guðrúnu", "ef": "Guðrúnar" }
+        },
+        {
+          "lemma": "Jón",
+          "gloss": "algengt karlmannsnafn",
+          "forms": { "nf": "Jón", "þf": "Jón", "þgf": "Jóni", "ef": "Jóns" }
+        },
+        {
+          "lemma": "Anna",
+          "gloss": "algengt kvenmannsnafn — beygist með hljóðvarpi",
+          "fact": "Anna verður Önnu í öllum aukaföllum — sama hljóðvarp og í kanna → könnu.",
+          "forms": { "nf": "Anna", "þf": "Önnu", "þgf": "Önnu", "ef": "Önnu" }
+        }
+      ]
+    },
+    {
+      "id": "dyr",
+      "label": "Dýr",
+      "icon": "paw",
+      "noLadder": false,
+      "words": [
+        {
+          "lemma": "hestur",
+          "gloss": "horse",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "hestur", "þf": "hest", "þgf": "hesti", "ef": "hests" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "hestar", "þf": "hesta", "þgf": "hestum", "ef": "hesta" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "hesturinn", "þf": "hestinn", "þgf": "hestinum", "ef": "hestsins" } }
+          }
+        },
+        {
+          "lemma": "köttur",
+          "gloss": "cat",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "köttur", "þf": "kött", "þgf": "ketti", "ef": "kattar" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "kettir", "þf": "ketti", "þgf": "köttum", "ef": "katta" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "kötturinn", "þf": "köttinn", "þgf": "kettinum", "ef": "kattarins" } }
+          }
+        },
+        {
+          "lemma": "hundur",
+          "gloss": "dog",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "hundur", "þf": "hund", "þgf": "hundi", "ef": "hunds" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "hundar", "þf": "hunda", "þgf": "hundum", "ef": "hunda" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "hundurinn", "þf": "hundinn", "þgf": "hundinum", "ef": "hundsins" } }
+          }
+        },
+        {
+          "lemma": "fugl",
+          "gloss": "bird",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "fugl", "þf": "fugl", "þgf": "fugli", "ef": "fugls" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "fuglar", "þf": "fugla", "þgf": "fuglum", "ef": "fugla" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "fuglinn", "þf": "fuglinn", "þgf": "fuglinum", "ef": "fuglsins" } }
+          }
+        },
+        {
+          "lemma": "mús",
+          "gloss": "mouse",
+          "verified": false,
+          "fact": "Fleirtalan mýs sýnir hljóðvarp — sama fyrirbæri og í bók → bækur.",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "mús", "þf": "mús", "þgf": "mús", "ef": "músar" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "mýs", "þf": "mýs", "þgf": "músum", "ef": "músa" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "músin", "þf": "músina", "þgf": "músinni", "ef": "músarinnar" } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "hlutir",
+      "label": "Hlutir",
+      "icon": "cube",
+      "noLadder": false,
+      "words": [
+        {
+          "lemma": "borð",
+          "gloss": "table",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "borð", "þf": "borð", "þgf": "borði", "ef": "borðs" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "borð", "þf": "borð", "þgf": "borðum", "ef": "borða" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "borðið", "þf": "borðið", "þgf": "borðinu", "ef": "borðsins" } }
+          }
+        },
+        {
+          "lemma": "stóll",
+          "gloss": "chair",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "stóll", "þf": "stól", "þgf": "stól", "ef": "stóls" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "stólar", "þf": "stóla", "þgf": "stólum", "ef": "stóla" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "stóllinn", "þf": "stólinn", "þgf": "stólnum", "ef": "stólsins" } }
+          }
+        },
+        {
+          "lemma": "gluggi",
+          "gloss": "window",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "gluggi", "þf": "glugga", "þgf": "glugga", "ef": "glugga" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "gluggar", "þf": "glugga", "þgf": "gluggum", "ef": "glugga" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "glugginn", "þf": "gluggann", "þgf": "glugganum", "ef": "gluggans" } }
+          }
+        },
+        {
+          "lemma": "bók",
+          "gloss": "book",
+          "fact": "Fleirtalan bækur sýnir sama hljóðvarp og mús → mýs.",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "bók", "þf": "bók", "þgf": "bók", "ef": "bókar" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "bækur", "þf": "bækur", "þgf": "bókum", "ef": "bóka" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "bókin", "þf": "bókina", "þgf": "bókinni", "ef": "bókarinnar" } }
+          }
+        },
+        {
+          "lemma": "penni",
+          "gloss": "pen",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "penni", "þf": "penna", "þgf": "penna", "ef": "penna" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "pennar", "þf": "penna", "þgf": "pennum", "ef": "penna" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "penninn", "þf": "pennann", "þgf": "pennanum", "ef": "pennans" } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "nyyrdi",
+      "label": "Nýyrði",
+      "icon": "bulb",
+      "noLadder": false,
+      "words": [
+        {
+          "lemma": "tölva",
+          "gloss": "computer",
+          "fact": "Búið til 1965 úr „tala“ og „völva“ — vél sem sér framtíðina í tölum.",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "tölva", "þf": "tölvu", "þgf": "tölvu", "ef": "tölvu" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "tölvur", "þf": "tölvur", "þgf": "tölvum", "ef": "tölva" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "tölvan", "þf": "tölvuna", "þgf": "tölvunni", "ef": "tölvunnar" } }
+          }
+        },
+        {
+          "lemma": "sími",
+          "gloss": "telephone",
+          "fact": "Gamalt orð yfir „þráður“, endurvakið 1906 þegar fyrsta símalínan kom til Íslands.",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "sími", "þf": "síma", "þgf": "síma", "ef": "síma" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "símar", "þf": "síma", "þgf": "símum", "ef": "síma" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "síminn", "þf": "símann", "þgf": "símanum", "ef": "símans" } }
+          }
+        },
+        {
+          "lemma": "þyrla",
+          "gloss": "helicopter",
+          "fact": "Búið til úr sögninni að þyrla (þyrla upp) — vélin sem þyrlar sér upp í loftið.",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "þyrla", "þf": "þyrlu", "þgf": "þyrlu", "ef": "þyrlu" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "þyrlur", "þf": "þyrlur", "þgf": "þyrlum", "ef": "þyrla" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "þyrlan", "þf": "þyrluna", "þgf": "þyrlunni", "ef": "þyrlunnar" } }
+          }
+        },
+        {
+          "lemma": "tölvupóstur",
+          "gloss": "email",
+          "verified": false,
+          "fact": "Bókstaflega „tölvu-póstur“ — nýyrði myndað úr tölva og póstur þegar tölvupóstur varð til.",
+          "levels": {
+            "easy": { "sub": "eintala, án greinis", "forms": { "nf": "tölvupóstur", "þf": "tölvupóst", "þgf": "tölvupósti", "ef": "tölvupósts" } },
+            "medium": { "sub": "fleirtala, án greinis", "forms": { "nf": "tölvupóstar", "þf": "tölvupósta", "þgf": "tölvupóstum", "ef": "tölvupósta" } },
+            "hard": { "sub": "eintala, með greini", "forms": { "nf": "tölvupósturinn", "þf": "tölvupóstinn", "þgf": "tölvupóstinum", "ef": "tölvupóstsins" } }
+          }
+        }
+      ]
+    },
+    {
+      "id": "skritin",
+      "label": "Skrítin orð",
+      "icon": "help",
+      "noLadder": true,
+      "words": [
+        {
+          "lemma": "él",
+          "gloss": "a sudden snow or hail squall",
+          "fact": "Íslenska greinir úrkomu í mun fleiri orð en flest tungumál — él er hvorki rigning né slydda.",
+          "forms": { "nf": "él", "þf": "él", "þgf": "éli", "ef": "éls" }
+        },
+        {
+          "lemma": "glitský",
+          "gloss": "nacreous clouds — rare, glowing high-altitude clouds",
+          "fact": "Sjást örsjaldan hátt í heiðhvolfinu — margir Íslendingar hafa aldrei heyrt þetta orð.",
+          "forms": { "nf": "glitský", "þf": "glitský", "þgf": "glitskýi", "ef": "glitskýs" }
+        }
+      ]
+    }
+  ]
+}
