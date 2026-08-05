@@ -1,6 +1,7 @@
 import Foundation
 import SwiftUI
 import Combine
+import UIKit
 
 // MARK: - User Profile
 
@@ -100,6 +101,7 @@ final class SessionEngine: ObservableObject {
     @Published var isDailyMode: Bool = false
 
     private var timerBag: AnyCancellable?
+    private var lastHapticSecond: Int = Int.max
 
     init() {
         let today = Self.todayStr()
@@ -176,12 +178,30 @@ final class SessionEngine: ObservableObject {
     func startTimer() {
         timerBag?.cancel()
         timeRemaining = Self.secondsPerWord
+        lastHapticSecond = Int(Self.secondsPerWord) + 1
         timerBag = Timer.publish(every: 0.05, on: .main, in: .common)
             .autoconnect()
             .sink { [weak self] _ in
                 guard let self, phase == .playing else { return }
                 timeRemaining = max(0, timeRemaining - 0.05)
-                if timeRemaining == 0 { onWordFailed() }
+                if timeRemaining == 0 { onWordFailed(); return }
+
+                // Escalating haptics as time runs out
+                let sec = Int(ceil(timeRemaining))
+                if sec != lastHapticSecond, sec > 0 {
+                    lastHapticSecond = sec
+                    switch sec {
+                    case 10:
+                        UINotificationFeedbackGenerator().notificationOccurred(.warning)
+                    case 6...9:
+                        UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                    case 3...5:
+                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    case 1...2:
+                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                    default: break
+                    }
+                }
             }
     }
 
