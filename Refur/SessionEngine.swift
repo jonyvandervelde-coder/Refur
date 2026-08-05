@@ -60,8 +60,21 @@ final class SessionEngine: ObservableObject {
     ]
 
     static func landmark(at index: Int) -> String {
-        guard index >= 0, index < landmarks.count else { return "Fundur \(index + 1)" }
+        guard index >= 0, index < landmarks.count else { return "Stig \(index + 1)" }
         return landmarks[index]
+    }
+
+    static let nodeIcons: [String] = [
+        "🐦", "💧", "🌊", "⛩️",
+        "🐋", "⛪", "🧊", "🌋",
+        "🌈", "🦆", "💦", "🏔️",
+        "🦭", "🎣", "⚔️", "🌿",
+        "⛵", "🌊", "🚢", "🌲"
+    ]
+
+    static func nodeIcon(at index: Int) -> String {
+        guard index >= 0, index < nodeIcons.count else { return "⭐" }
+        return nodeIcons[index]
     }
 
     enum Phase: Equatable { case idle, playing, wordFailed, sessionComplete, sessionFailed }

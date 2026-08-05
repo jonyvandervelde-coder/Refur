@@ -160,11 +160,6 @@ struct HomeMapView: View {
                         profileCard
                         streakRow
                         Divider().padding(.horizontal, 20)
-                        Text("Fundamap")
-                            .font(.system(size: 13, weight: .black, design: .rounded))
-                            .foregroundColor(C.textMid)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal, 20)
                         sessionGrid
                     }
                     .padding(.bottom, 44)
@@ -247,7 +242,7 @@ struct HomeMapView: View {
                         .font(.system(size: 17, weight: .black, design: .rounded))
                         .foregroundColor(C.textDark)
                     HStack(spacing: 4) {
-                        Text("\(session.unlockedCount) fundur opinn")
+                        Text("Stig \(session.unlockedCount)")
                             .font(.system(size: 11, weight: .semibold, design: .rounded))
                             .foregroundColor(C.textMid)
                         if UserAccount.current != nil {
@@ -425,9 +420,10 @@ struct HomeMapView: View {
 
                 // Nodes positioned along the zigzag
                 ForEach(0..<total, id: \.self) { idx in
-                    let cx = w * xFracs[idx % xFracs.count]
-                    let cy = CGFloat(idx) * nodeH + nodeH * 0.5
-                    SessionMapNode(number: idx + 1, state: session.nodeState(at: idx)) {
+                    let cx   = w * xFracs[idx % xFracs.count]
+                    let cy   = CGFloat(idx) * nodeH + nodeH * 0.5
+                    let icon = SessionEngine.nodeIcon(at: idx)
+                    SessionMapNode(number: idx + 1, icon: icon, state: session.nodeState(at: idx)) {
                         if session.nodeState(at: idx) != .locked {
                             onStartSession(idx, false)
                         }
@@ -454,6 +450,7 @@ struct HomeMapView: View {
 
 struct SessionMapNode: View {
     let number: Int
+    let icon:   String
     let state:  SessionEngine.NodeState
     let onTap:  () -> Void
 
@@ -489,8 +486,8 @@ struct SessionMapNode: View {
             Image(systemName: "checkmark")
                 .font(.system(size: 20, weight: .black)).foregroundColor(.white)
         case .open:
-            Text("\(number)")
-                .font(.system(size: 18, weight: .black, design: .rounded)).foregroundColor(.white)
+            Text(icon)
+                .font(.system(size: 22))
         case .locked:
             Image(systemName: "lock.fill")
                 .font(.system(size: 16)).foregroundColor(C.zoneD.opacity(0.55))
