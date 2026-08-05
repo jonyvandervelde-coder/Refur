@@ -636,46 +636,23 @@ struct DropZone: View {
         }
     }
 
+    @ViewBuilder
     private var sentenceView: some View {
-        let parts = sentence.components(separatedBy: "___")
-        let before = parts.first ?? ""
-        let after  = parts.count > 1 ? parts[1] : ""
         if let w = word, result == .correct {
-            return (
-                Text(before)
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white.opacity(0.70))
-                + Text(w)
-                    .font(.system(size: 12, weight: .black, design: .rounded))
-                    .foregroundColor(C.gold)
-                + Text(after)
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white.opacity(0.70))
-            )
+            Text(w)
+                .font(.system(size: 17, weight: .black, design: .rounded))
+                .foregroundColor(C.gold)
+                .shadow(color: C.goldDark.opacity(0.50), radius: 0, x: 0, y: 1)
         } else if let w = word, result == .wrong {
-            return (
-                Text(before)
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white.opacity(0.65))
-                + Text(w)
-                    .font(.system(size: 12, weight: .black, design: .rounded))
-                    .foregroundColor(.white)
-                + Text(after)
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundColor(.white.opacity(0.65))
-            )
+            Text(w)
+                .font(.system(size: 17, weight: .black, design: .rounded))
+                .foregroundColor(.white)
+                .opacity(0.90)
         } else {
-            return (
-                Text(before)
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundColor(C.textDark.opacity(0.75))
-                + Text("___")
-                    .font(.system(size: 11, weight: .black, design: .rounded))
-                    .foregroundColor(C.zoneD.opacity(0.70))
-                + Text(after)
-                    .font(.system(size: 11, weight: .semibold, design: .rounded))
-                    .foregroundColor(C.textDark.opacity(0.75))
-            )
+            Text("— — —")
+                .font(.system(size: 14, weight: .black, design: .rounded))
+                .foregroundColor(C.zoneD.opacity(0.55))
+                .tracking(4)
         }
     }
 }
@@ -940,7 +917,7 @@ struct AefingView: View {
                 FoxCard(game: game, session: session)
                     .padding(.horizontal, 14)
 
-                VStack(spacing: 2) {
+                VStack(spacing: 5) {
                     ArcadeText(game.currentWord.base, size: 36,
                                fill: C.orange, outline: C.orangeD.opacity(0.80), sw: 2)
                     Text([game.currentWord.translation,
@@ -950,6 +927,25 @@ struct AefingView: View {
                         .joined(separator: "  •  "))
                     .font(.system(size: 11, weight: .semibold, design: .rounded))
                     .foregroundColor(C.textMid)
+
+                    // Category (orðaflokk) badge
+                    let cat = game.currentWord.category
+                    let catDef = catDefs.first { $0.name == cat }
+                    Text(cat)
+                        .font(.system(size: 9, weight: .black, design: .rounded))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 9)
+                        .padding(.vertical, 4)
+                        .background(
+                            Block3D(
+                                color:  catDef?.bg     ?? C.tile,
+                                shadow: catDef?.shadow ?? C.tileD,
+                                depth: 3,
+                                radius: 7
+                            )
+                        )
+                        .animation(.spring(response: 0.28, dampingFraction: 0.70),
+                                   value: cat)
                 }
 
                 // ⭐ Vista orð button
