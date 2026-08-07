@@ -1,7 +1,10 @@
 import SwiftUI
+
+// Conditional import for Lottie (added via SPM)
+#if canImport(Lottie)
 import Lottie
 
-// MARK: - Emotional Fox Animation View
+// MARK: - Emotional Fox Animation View (with Lottie)
 
 struct FoxView: View {
     @ObservedObject var session: SessionEngine
@@ -89,6 +92,35 @@ struct LottieView: UIViewRepresentable {
         var animationView: LottieAnimationView?
     }
 }
+
+#else
+
+// MARK: - Fallback Fox View (placeholder until Lottie is added)
+
+struct FoxView: View {
+    @ObservedObject var session: SessionEngine
+    @ObservedObject var game: GameState
+
+    var foxEmotion: String {
+        switch session.phase {
+        case .idle: return "😊"
+        case .playing:
+            return session.timeRemaining <= 5 ? "😰" : "😌"
+        case .wordFailed: return "😢"
+        case .sessionComplete: return "🎉"
+        case .sessionFailed: return "😢"
+        }
+    }
+
+    var body: some View {
+        Text(foxEmotion)
+            .font(.system(size: 72))
+            .frame(width: 180, height: 180)
+            .transition(.scale.combined(with: .opacity))
+    }
+}
+
+#endif
 
 // MARK: - Preview
 
