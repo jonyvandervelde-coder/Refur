@@ -43,7 +43,14 @@ struct LottieView: UIViewRepresentable {
 
     func makeUIView(context: Context) -> UIView {
         let container = UIView()
-        let animationView = LottieAnimationView(name: name, bundle: .main)
+        // Load from Lottie folder in the app bundle
+        let animationView: LottieAnimationView
+        if let bundlePath = Bundle.main.path(forResource: "Lottie", ofType: ""),
+           let bundle = Bundle(path: bundlePath) {
+            animationView = LottieAnimationView(name: name, bundle: bundle)
+        } else {
+            animationView = LottieAnimationView(name: name, bundle: .main)
+        }
 
         animationView.loopMode = loopMode
         animationView.animationSpeed = playbackSpeed
