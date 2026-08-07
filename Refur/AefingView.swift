@@ -1,5 +1,39 @@
 import SwiftUI
 
+// MARK: - Emotional Fox View (Emoji — Lottie version coming after SPM package added)
+
+struct FoxView: View {
+    @ObservedObject var session: SessionEngine
+    @ObservedObject var game: GameState
+
+    var foxEmotion: String {
+        // Fox shows emotions based on game state
+        switch session.phase {
+        case .idle:
+            return "😊"  // Happy/ready
+        case .playing:
+            // Nervous when time is running out (matches haptic countdown)
+            if session.timeRemaining <= 5 && session.timeRemaining > 0 {
+                return "😰"  // Nervous
+            }
+            return "😌"  // Calm/focused
+        case .wordFailed:
+            return "😢"  // Sad
+        case .sessionComplete:
+            return "🎉"  // Celebrating
+        case .sessionFailed:
+            return "😢"  // Sad/lost
+        }
+    }
+
+    var body: some View {
+        Text(foxEmotion)
+            .font(.system(size: 72))
+            .frame(width: 180, height: 180)
+            .transition(.scale.combined(with: .opacity))
+    }
+}
+
 // MARK: - Color Palette
 
 enum C {

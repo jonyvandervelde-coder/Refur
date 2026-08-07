@@ -108,7 +108,7 @@ struct ProfileSetupView: View {
 
                     // Save button
                     Button {
-                        var p = UserProfile(
+                        let p = UserProfile(
                             nickname: nickname.trimmingCharacters(in: .whitespaces),
                             ageBracket: ageBracket,
                             avatarColorIndex: colorIdx
