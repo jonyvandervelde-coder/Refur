@@ -447,7 +447,7 @@ struct FoxCard: View {
             }
             .frame(height: 5)
 
-            // Ice scene
+            // Emotional Lottie Fox Animation
             ZStack {
                 LinearGradient(colors: [C.skyTop, C.skyBot],
                                startPoint: .top, endPoint: .bottom)
@@ -475,21 +475,11 @@ struct FoxCard: View {
                                          startPoint: .top, endPoint: .bottom))
                     .frame(width: 92, height: 16).offset(y: 21)
 
-                // Custom fox face (no emoji)
-                FoxFace(size: 42, isDeceased: isGameOver)
-                    .offset(x: shakeX, y: foxY + sunkY - 8)
-                    .animation(.spring(response: 0.45, dampingFraction: 0.75), value: sunkY)
-
-                // "Diseased" skull overlay
-                if isGameOver {
-                    Text("×")
-                        .font(.system(size: 28, weight: .black, design: .rounded))
-                        .foregroundColor(.white.opacity(0.70))
-                        .offset(y: sunkY - 8)
-                        .transition(.scale.combined(with: .opacity))
-                }
+                // Emotional fox
+                FoxView(session: session, game: game)
+                    .offset(y: -12)
             }
-            .frame(height: 90)
+            .frame(height: 120)
             .clipped()
             .animation(.easeInOut(duration: 0.35), value: isGameOver)
 
